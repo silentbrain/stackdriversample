@@ -1,5 +1,5 @@
 steps:
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'instance', 'stop', 'kty-tet-instance01-1', '--zone', 'asia-northeast3-b']
+  args: ['gcloud', 'compute', 'instance', 'stop', 'kty-tet-instance01-1', '--zone', 'asia-northeast3-b']
 
 
