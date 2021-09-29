@@ -1,5 +1,3 @@
 steps:
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'instances', 'stop', 'kty-tet-instance01-1', '--zone', 'asia-northeast3-b']
-- name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'instances', 'stop', 'jgs-tet-instance01', '--zone', 'asia-northeast3-b']
+  args: ['compute', 'ssh', 'pping@kty-tet-instance01-1', '--zone', 'asia-northeast3-b', '--ssh-flag', '"-p 10022', "--command", '"git clone https://github.com/silentbrain/stackdriversample.git"']
