@@ -8,15 +8,15 @@ steps:
 
 #First Deploy for SSH init
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'ssh', 'pping@kty-instance-2', '--zone', 'asia-northeast3-a', '--ssh-flag', '-p 10022', '--command', 'gsutil -m cp -r gs://kty-test1/git /hosting/pping/ && gsutil cp gs://kty-test1/after.sh /hosting/pping/ && sh /hosting/pping/after.sh']
+  args: ['compute', 'ssh', 'pping@kty-instance-2', '--zone', 'asia-northeast3-a', '--ssh-flag', '-p 10022', '--command', 'gsutil -m cp -r gs://kty-test1/git gs://kty-test1/after.sh /hosting/pping/ && gsutil cp  /hosting/pping/ && sh /hosting/pping/after.sh']
   id: 'init-for-ssh'
   waitFor: ['gcs-copy']
   
 #After Deploy parallel
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'ssh', 'pping@kty-instance-3', '--zone', 'asia-northeast3-a', '--ssh-flag', '-p 10022', '--command', 'gsutil -m cp -r gs://kty-test1/git /hosting/pping/ && gsutil cp gs://kty-test1/after.sh /hosting/pping/ && sh /hosting/pping/after.sh']
+  args: ['compute', 'ssh', 'pping@kty-instance-3', '--zone', 'asia-northeast3-a', '--ssh-flag', '-p 10022', '--command', 'gsutil -m cp -r gs://kty-test1/git gs://kty-test1/after.sh /hosting/pping/ && gsutil cp gs://kty-test1/after.sh /hosting/pping/ && sh /hosting/pping/after.sh']
   waitFor: ['init-for-ssh']
-  
+
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'ssh', 'pping@kty-instance-4', '--zone', 'asia-northeast3-a', '--ssh-flag', '-p 10022', '--command', 'gsutil -m cp -r gs://kty-test1/git /hosting/pping/ && gsutil cp gs://kty-test1/after.sh /hosting/pping/ && sh /hosting/pping/after.sh']
+  args: ['compute', 'ssh', 'pping@kty-instance-4', '--zone', 'asia-northeast3-a', '--ssh-flag', '-p 10022', '--command', 'gsutil -m cp -r gs://kty-test1/git gs://kty-test1/after.sh /hosting/pping/ && gsutil cp gs://kty-test1/after.sh /hosting/pping/ && sh /hosting/pping/after.sh']
   waitFor: ['init-for-ssh']
