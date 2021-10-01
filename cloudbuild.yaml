@@ -1,5 +1,6 @@
 steps:
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['auth', 'list']
-- name: 'bash'
-  args: ['ls', '-al']
+- name: 'gcr.io/cloud-builders/gsutil'
+  args: ['-m', 'cp', '-r', './*', 'gs://kty-test/git/']
+  id: 'gcs-copy'
