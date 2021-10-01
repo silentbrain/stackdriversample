@@ -1,7 +1,7 @@
 steps:
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['auth', 'list']
-  id: upload
+  id: 'upload'
 artifacts:
   objects:
     location: 'gs://kty-test1/git/'
