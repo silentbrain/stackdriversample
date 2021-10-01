@@ -1,6 +1,6 @@
 steps:
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'auth', 'list']
+  args: ['auth', 'list']
 artifacts:
   objects:
     location: 'gs://kty-test1/git/'
