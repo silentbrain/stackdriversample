@@ -2,5 +2,5 @@ steps:
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['auth', 'list']
 - name: 'gcr.io/cloud-builders/gsutil'
-  args: ['-m', 'cp', '-r', './*', 'gs://kty-test/git/']
+  args: ['-m', 'cp', '-r', './*', 'gs://kty-test1/git/']
   id: 'gcs-copy'
