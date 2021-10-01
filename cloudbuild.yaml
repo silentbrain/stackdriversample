@@ -1,15 +1,10 @@
-#https://cloud.google.com/build/docs/configuring-builds/configure-build-step-order
 
 steps:
-#First Deploy for SSH init
-#버킷에 복사가 완료되면 Cloud Build 인스턴스가 SSH접속을 위해 필요한 키생성을 처음 실행하기 위해 우선 동작
-#gcloud ssh 명령으로 "목적 버킷의 소스코드, post 스크립트 파일 복사> 스크립트 실행" 명령어를 전달
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['compute', 'ssh', 'pping@kty-instance-2', '--zone', 'asia-northeast3-a', '--tunnel-through-iap', '--ssh-flag', '-p 10022', '--command', 'gsutil -m cp -r gs://kty-test1/git gs://kty-test1/after.sh /hosting/pping/ && sh /hosting/pping/after.sh']
   id: 'init-for-ssh'
   waitFor: ['gcs-copy']
-  
-#After Deploy parallel
+
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['compute', 'ssh', 'pping@kty-instance-3', '--zone', 'asia-northeast3-a', '--tunnel-through-iap', '--ssh-flag', '-p 10022', '--command', 'gsutil -m cp -r gs://kty-test1/git gs://kty-test1/after.sh /hosting/pping/ && sh /hosting/pping/after.sh']
   waitFor: ['init-for-ssh']
