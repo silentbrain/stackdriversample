@@ -1,20 +1,15 @@
 steps:
-- name: 'gcr.io/cloud-builders/gcloud'
-  args: ['auth', 'list']
-
 - name: 'gcr.io/cloud-builders/gsutil'
   args: ['-m', 'cp', '-r', './*', 'gs://kty-test1/git/']
   id: 'gcs-copy'
-
 
 - name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'
   args:
     - '-c'
     - |
-      gcloud compute instances list --format="csv(name,zone.basename())" | grep kty- > /sc_vn_list/vm.csv
+      gcloud auth list
+      gcloud compute instances list --format="csv(name,zone.basename())" | grep kty- > /sc_vm_list/vm.csv
   volumes:
-  - name: 'sc_list'
+  - name: 'sc_vm_list'
     path: '/sc_vm_list'
-  id: 'list-vms'
-  waitFor: ['gcs-copy']
