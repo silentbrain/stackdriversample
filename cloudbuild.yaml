@@ -8,5 +8,5 @@ steps:
 
 
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'instances', 'list', "--format", "csv(name,zone)"]
+  args: ['compute', 'instances', 'list', "--format", "csv(name,zone)", "|", "grep", "kty"]
   waitFor: ['gcs-copy'] 
