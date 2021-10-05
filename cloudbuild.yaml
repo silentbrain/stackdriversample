@@ -10,11 +10,13 @@ steps:
     - |
       gcloud auth list
       gcloud compute instances list --format="csv(name,zone.basename())" | grep kty- > /sc_vm_list/list.csv
-      ssh-keygen -t rsa -f ~/.ssh/id_rsa
+      ssh-keygen -t rsa -f ~/root/.ssh/id_rsa
   volumes:
   - name: 'sc_vm_list'
     path: '/sc_vm_list'
-  id: 'list_vm'
+  id: 'init-ssh'
+  waitFor: ['gcs-copy']
+
 
 - name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'
@@ -22,7 +24,8 @@ steps:
     - '-c'
     - |
       cat /sc_vm_list/list.csv
+      gcloud compute ssh kty-instance-3 --zone=asia-northeast3-a --tunnel-through-iap --ssh-flag="-p 10022" --command="hostname"
   volumes:
   - name: 'sc_vm_list'
     path: '/sc_vm_list'
-  waitFor: ['list_vm']
+  waitFor: ['init-ssh']
