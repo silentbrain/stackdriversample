@@ -10,7 +10,7 @@ steps:
     - |
       gcloud auth list
       gcloud compute instances list --format="csv(name,zone.basename())" | grep kty- > /sc_vm_list/list.csv
-      ssh-keygen
+      ssh-keygen -t rsa -f ~/.ssh/id_rsa
   volumes:
   - name: 'sc_vm_list'
     path: '/sc_vm_list'
