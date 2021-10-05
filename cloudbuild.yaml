@@ -24,4 +24,4 @@ steps:
   volumes:
   - name: 'sc_vm_list'
     path: '/sc_vm_list'
-  waitFor: ['list_vms']
+  waitFor: ['list_vm']
