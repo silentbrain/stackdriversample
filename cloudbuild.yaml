@@ -12,5 +12,22 @@ steps:
   args:
     - '-c'
     - |
-      gcloud compute instances list --format="csv(name,zone.basename())" | grep kty-
+      gcloud compute instances list --format="csv(name,zone.basename())" | grep kty- > /sc_vn_list/vm.csv
+  volumes:
+  - name: 'sc_list'
+    path: '/sc_vm_list'
+  id: 'list-vms'
   waitFor: ['gcs-copy']
+
+
+- name: 'ubuntu'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      cat /sc_vm_list/list.csv
+  volumes:
+  - name: 'sc_vm_list'
+    path: '/sc_vm_list'
+  id: 'read-file'
+  waitFor: ['list-vms']
