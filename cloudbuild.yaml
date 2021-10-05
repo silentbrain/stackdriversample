@@ -18,16 +18,3 @@ steps:
     path: '/sc_vm_list'
   id: 'list-vms'
   waitFor: ['gcs-copy']
-
-
-- name: 'ubuntu'
-  entrypoint: 'bash'
-  args:
-    - '-c'
-    - |
-      cat /sc_vm_list/list.csv
-  volumes:
-  - name: 'sc_vm_list'
-    path: '/sc_vm_list'
-  id: 'read-file'
-  waitFor: ['list-vms']
