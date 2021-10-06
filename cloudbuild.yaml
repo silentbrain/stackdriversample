@@ -22,7 +22,7 @@ steps:
   waitFor: ['gcs-copy']
 
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['builds', 'submit', '--no-source', '--config', '/deploy/deploy.yaml', '--async']
+  args: ['builds', 'submit', '--no-source', '--async', '--config', '/deploy/deploy.yaml', '--substitutions', '_TRIGGER_BUILD=$BUILD_ID' ]
   volumes:
   - name: 'deploy'
     path: '/deploy'
