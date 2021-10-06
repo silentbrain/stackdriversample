@@ -24,6 +24,7 @@ do
 
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['compute', 'ssh', 'pping@${INSTANCE_NAME}', '--zone', '${ZONE}', '--tunnel-through-iap', '--ssh-flag', '-p 10022', '--command', 'rm -rf \${_LOCAL_PATH}/* && gsutil -m cp -r \${_GIT_BUCKET}/* \${_SCRIPT_BUCKET}/\${_SCRIPT_FILE} \${_LOCAL_PATH}/ && sh \${_LOCAL_PATH}/\${_SCRIPT_FILE}']
+  allow_failure: true
   id : 'deploy-${INSTANCE_NAME}'
   waitFor: ['init-ssh']
 EOF
