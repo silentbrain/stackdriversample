@@ -19,7 +19,7 @@ steps:
   waitFor: ['gcs-copy']
 
 - name: 'bash'
-  args: ['./make-deploy.sh']
+  args: ['make-deploy.sh']
   volumes:
   - name: 'deploy'
     path: '/deploy'
