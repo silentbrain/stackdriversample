@@ -13,6 +13,7 @@ steps:
       echo "Listing active kty prefix instances"
       cat /deploy/list.csv
       sh make-deploy.sh
+      cat /deploy/deploy.yaml
   volumes:
   - name: 'deploy'
     path: '/deploy'
