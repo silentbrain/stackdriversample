@@ -9,30 +9,30 @@ steps:
     - '-c'
     - |
       gcloud auth list
-      gcloud compute instances list --format="csv(name,zone.basename(),status)" | grep RUNNING | grep kty- > /workspace/list.csv
+      gcloud compute instances list --format="csv(name,zone.basename(),status)" | grep RUNNING | grep kty- > /deploy/list.csv
       echo "Listing active kty prefix instances"
-      cat /workspace/list.csv
+      cat /deploy/list.csv
   volumes:
-  - name: 'workspace'
-    path: '/workspace'
+  - name: 'deploy'
+    path: '/deploy'
   id: 'list-vm'
   waitFor: ['gcs-copy']
 
 - name: 'bash'
   args: ['./make-deploy.sh']
   volumes:
-  - name: 'workspace'
-    path: '/workspace'
+  - name: 'deploy'
+    path: '/deploy'
   id: 'make-deploy.yaml'
   waitFor: ['list-vm']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'
   args:
-    - cat /workspace/deploy.yaml
+    - cat /deploy/deploy.yaml
   volumes:
-  - name: 'workspace'
-    path: '/workspace'
+  - name: 'deploy'
+    path: '/deploy'
   id: 'cat-deploy.yaml'
   waitFor: ['make-deploy.yaml']
 
