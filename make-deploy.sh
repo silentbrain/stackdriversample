@@ -23,7 +23,7 @@ do
  cat <<EOF >> /deploy/deploy.yaml
 
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'ssh', 'pping@${INSTANCE_NAME}', '--zone', '${ZONE}', '--tunnel-through-iap', '--ssh-flag', '-p 10022', '--command', 'gsutil -m cp -r \${_GIT_BUCKET} \${_SCRIPT_BUCKET}\${_SCRIPT_FILE} \${_LOCAL_PATH} && sh \${_LOCAL_PATH}${_SCRIPT_FILE}']
+  args: ['compute', 'ssh', 'pping@${INSTANCE_NAME}', '--zone', '${ZONE}', '--tunnel-through-iap', '--ssh-flag', '-p 10022', '--command', 'gsutil -m cp -r \${_GIT_BUCKET} \${_SCRIPT_BUCKET}\${_SCRIPT_FILE} \${_LOCAL_PATH} && sh \${_LOCAL_PATH}\${_SCRIPT_FILE}']
   id : 'deploy-${INSTANCE_NAME}'
   waitFor: ['init-ssh']
 EOF
