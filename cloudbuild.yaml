@@ -1,6 +1,6 @@
 options:
-  env: ['BUILD=BUCKET=gs://kty-test1/git']
-  
+  env: ['BUILD_BUCKET=gs://kty-test1/git']
+
 steps:
 - name: 'gcr.io/cloud-builders/gsutil'
   args: ['-m', 'cp', '-r', './*', '$BUILD_BUCKET']
