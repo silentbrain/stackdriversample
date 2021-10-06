@@ -1,7 +1,17 @@
 steps:
+- name: 'ubuntu'
+  env:
+  - 'BUILD=$BUILD_ID'
+  - 'PROJECT_ID=$PROJECT_ID'
+  - 'PROJECT_NUMBER=$PROJECT_NUMBER'
+  - 'REV=$REVISION_ID'
+  id: 'set-env'
+
+
 - name: 'gcr.io/cloud-builders/gsutil'
   args: ['-m', 'cp', '-r', './*', 'gs://kty-test1/git/']
   id: 'gcs-copy'
+  waitFor: ['set-env']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'
