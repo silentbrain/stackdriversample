@@ -8,7 +8,11 @@ steps:
   args:
     - '-c'
     - |
+      echo "================================"
       echo "Triggered by \${_TRIGGER_BUILD}"
+      echo "Repository : \${_TRIGGER_REPO}"
+      echo "Cimmit : \${_TRIGGER_COMMIT}"
+      echo "================================"
       mkdir /builder/home/.ssh
       ssh-keygen -t rsa -f /builder/home/.ssh/google_compute_engine
   id: 'init-ssh'
