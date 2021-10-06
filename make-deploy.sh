@@ -8,7 +8,7 @@ steps:
   args:
     - '-c'
     - |
-      echo "Triggered by \\${_TRIGGER_BUILD}"
+      echo "Triggered by \${_TRIGGER_BUILD}"
       mkdir /builder/home/.ssh
       ssh-keygen -t rsa -f /builder/home/.ssh/google_compute_engine
   id: 'init-ssh'
