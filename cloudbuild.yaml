@@ -9,42 +9,30 @@ steps:
     - '-c'
     - |
       gcloud auth list
-      gcloud compute instances list --format="csv(name,zone.basename(),status)" | grep RUNNING | grep kty- > /sc_vm_list/list.csv
+      gcloud compute instances list --format="csv(name,zone.basename(),status)" | grep RUNNING | grep kty- > /workspace/list.csv
+      echo "Listing active kty prefix instances"
+      cat /workspace/list.csv
   volumes:
-  - name: 'sc_vm_list'
-    path: '/sc_vm_list'
+  - name: 'workspace'
+    path: '/workspace'
   id: 'list-vm'
   waitFor: ['gcs-copy']
 
-
-- name: 'gcr.io/cloud-builders/gcloud'
-  entrypoint: 'bash'
-  args:
-    - '-c'
-    - |
-      while IFS=',' read INSTANCE_NAME ZONE STATUS; 
-do
- cat <<EOF > /sc_vm_list/deploy2.yaml
-step:
-- name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'ssh', 'pping@${INSTANCE_NAME}', '--zone', '${ZONE}', '--tunnel-through-iap', '--ssh-flag', '-p 10022', '--command', 'hostname']
-  waitFor: ['init-ssh']
-  id : 'deploy-${INSTANCE_NAME}'
-EOF
-done < /sc_vm_list/list.csv
+- name: 'bash'
+  args: ['./make-deploy.sh']
   volumes:
-  - name: 'sc_vm_list'
-    path: '/sc_vm_list'
+  - name: 'workspace'
+    path: '/workspace'
   id: 'make-deploy.yaml'
   waitFor: ['list-vm']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'
   args:
-    - cat /sc_vm_list/deploy2.yaml
+    - cat /workspace/deploy.yaml
   volumes:
-  - name: 'sc_vm_list'
-    path: '/sc_vm_list'
-  id: 'submit-deploy'
+  - name: 'workspace'
+    path: '/workspace'
+  id: 'cat-deploy.yaml'
   waitFor: ['make-deploy.yaml']
 
