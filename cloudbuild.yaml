@@ -10,12 +10,10 @@ steps:
     - |
       gcloud auth list
       gcloud compute instances list --format="csv(name,zone.basename(),status)" | grep RUNNING | grep kty- > /sc_vm_list/list.csv
-      mkdir /builder/home/.ssh
-      ssh-keygen -t rsa -f /builder/home/.ssh/google_compute_engine
   volumes:
   - name: 'sc_vm_list'
     path: '/sc_vm_list'
-  id: 'init-ssh'
+  id: 'list-vm'
   waitFor: ['gcs-copy']
 
 
@@ -25,11 +23,13 @@ steps:
     - '-c'
     - |
       cat /sc_vm_list/list.csv
-      while IFS=',' read INSTANCE_NAME ZONE STATUS; 
-      do 
-        gcloud compute ssh pping@\"${INSTANCE_NAME}\" --zone=\"${ZONE}\" --tunnel-through-iap --ssh-flag="-p 10022" --command="hostname" &
-      done < /sc_vm_list/list.csv
   volumes:
   - name: 'sc_vm_list'
     path: '/sc_vm_list'
-  waitFor: ['init-ssh']
+  id: 'make-deploy.yaml'
+  waitFor: ['list-vm']
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['builds', 'submit', '--no-source', '--config', 'deploy.yaml']
+  waitFor: ['make-deploy.yaml']
+
