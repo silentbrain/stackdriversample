@@ -1,9 +1,9 @@
-options:
-  env: ['BUILD_BUCKET=gs://kty-test1/git']
+substitutions:
+  _GIT_BUCKET: 'gs://kty-test1/git'
 
 steps:
 - name: 'gcr.io/cloud-builders/gsutil'
-  args: ['-m', 'cp', '-r', './*', '$BUILD_BUCKET']
+  args: ['-m', 'cp', '-r', './*', '$_GIT_BUCKET']
   id: 'gcs-copy'
   waitFor: ['set-env']
 
