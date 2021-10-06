@@ -6,8 +6,13 @@ substitutions:
 
 steps:
 - name: 'gcr.io/cloud-builders/gsutil'
+  args: ['-m', 'rm', '-r', '$_GIT_BUCKET/']
+  id: 'bucket-init'
+
+- name: 'gcr.io/cloud-builders/gsutil'
   args: ['-m', 'cp', '-r', './*', '$_GIT_BUCKET/']
   id: 'gcs-copy'
+  waitFor: ['bucket-init']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'
