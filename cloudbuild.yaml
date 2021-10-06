@@ -1,7 +1,7 @@
 steps:
 - name: 'ubuntu'
   env:
-  - 'SOURCE_BUCKET='gs://kty-test1/git'
+  - 'SOURCE_BUCKET=gs://kty-test1/git'
   id: 'set-env'
 
 
