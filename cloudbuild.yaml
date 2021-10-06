@@ -22,7 +22,16 @@ steps:
   args:
     - '-c'
     - |
-      cat /sc_vm_list/list.csv
+      while IFS=',' read INSTANCE_NAME ZONE STATUS; 
+do
+ cat <<EOF > /sc_vm_list/deploy2.yaml
+step:
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['compute', 'ssh', 'pping@${INSTANCE_NAME}', '--zone', '${ZONE}', '--tunnel-through-iap', '--ssh-flag', '-p 10022', '--command', 'hostname']
+  waitFor: ['init-ssh']
+  id : 'deploy-${INSTANCE_NAME}'
+EOF
+done < /sc_vm_list/list.csv
   volumes:
   - name: 'sc_vm_list'
     path: '/sc_vm_list'
@@ -30,7 +39,12 @@ steps:
   waitFor: ['list-vm']
 
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['builds', 'submit', '--no-source', '--config', 'deploy.yaml']
+  entrypoint: 'bash'
+  args:
+    - cat /sc_vm_list/deploy2.yaml
+  volumes:
+  - name: 'sc_vm_list'
+    path: '/sc_vm_list'
   id: 'submit-deploy'
   waitFor: ['make-deploy.yaml']
 
