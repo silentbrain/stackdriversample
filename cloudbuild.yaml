@@ -1,11 +1,7 @@
+options:
+  env: ['BUILD=BUCKET=gs://kty-test1/git']
+  
 steps:
-- name: 'ubuntu'
-  args: ['bash', './myscript.sh']
-  env:
-  - 'BUILD_BUCKET=gs://kty-test1/git'
-  id: 'set-env'
-
-
 - name: 'gcr.io/cloud-builders/gsutil'
   args: ['-m', 'cp', '-r', './*', '$BUILD_BUCKET']
   id: 'gcs-copy'
