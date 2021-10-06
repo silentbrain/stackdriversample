@@ -20,11 +20,11 @@ steps:
   id: 'build-deploy'
   waitFor: ['gcs-copy']
 
-- name: 'bash'
-  args: ['cat', '/deploy/deploy.yaml']
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  args: ['builds', 'submit', '--no-source', '--config', '/deploy/deploy.yaml', '--async']
   volumes:
   - name: 'deploy'
     path: '/deploy'
-  id: 'cat-deploy.yaml'
+  id: 'submit-deploy'
   waitFor: ['build-deploy']
-
