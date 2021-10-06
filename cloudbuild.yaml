@@ -6,7 +6,7 @@ substitutions:
 
 steps:
 - name: 'gcr.io/cloud-builders/gsutil'
-  args: ['-m', 'cp', '-r', './*', '$_GIT_BUCKET/*']
+  args: ['-m', 'cp', '-r', './*', '$_GIT_BUCKET']
   id: 'gcs-copy'
 
 - name: 'gcr.io/cloud-builders/gcloud'
