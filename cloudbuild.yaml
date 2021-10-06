@@ -1,6 +1,6 @@
 substitutions:
-  _GIT_BUCKET: 'gs://kty-test1/git/'
-  _SCRIPT_BUCKET: 'gs://kty-test1/'
+  _GIT_BUCKET: 'gs://kty-test1/git'
+  _SCRIPT_BUCKET: 'gs://kty-test1/script'
   _SCRIPT_FILE: 'after.sh'
   _LOCAL_PATH: '/hosting/pping/'
 
