@@ -1,5 +1,6 @@
 substitutions:
   _GIT_BUCKET: 'gs://kty-test1/git'
+  _SCRIPT_FILE: 'gs://kty-test1/after.sh'
 
 steps:
 - name: 'gcr.io/cloud-builders/gsutil'
@@ -25,7 +26,7 @@ steps:
   waitFor: ['gcs-copy']
 
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['builds', 'submit', '--no-source', '--async', '--config', '/deploy/deploy.yaml', '--substitutions', '_TRIGGER_BUILD=$BUILD_ID,_TRIGGER_REPO=$REPO_NAME,_TRIGGER_COMMIT=$COMMIT_SHA,_GIT_BUCKET=$_GIT_BUCKET' ]
+  args: ['builds', 'submit', '--no-source', '--async', '--config', '/deploy/deploy.yaml', '--substitutions', '_TRIGGER_BUILD=$BUILD_ID,_TRIGGER_REPO=$REPO_NAME,_TRIGGER_COMMIT=$COMMIT_SHA,_GIT_BUCKET=$_GIT_BUCKET,_SCRIPT_FILE=$_SCRIPT_FILE' ]
   volumes:
   - name: 'deploy'
     path: '/deploy'
