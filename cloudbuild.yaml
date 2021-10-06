@@ -12,19 +12,12 @@ steps:
       gcloud compute instances list --format="csv(name,zone.basename(),status)" | grep RUNNING | grep kty- > /deploy/list.csv
       echo "Listing active kty prefix instances"
       cat /deploy/list.csv
+      sh make-deploy.sh
   volumes:
   - name: 'deploy'
     path: '/deploy'
-  id: 'list-vm'
+  id: 'build-deploy'
   waitFor: ['gcs-copy']
-
-- name: 'bash'
-  args: ['make-deploy.sh']
-  volumes:
-  - name: 'deploy'
-    path: '/deploy'
-  id: 'make-deploy.yaml'
-  waitFor: ['list-vm']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   entrypoint: 'bash'
@@ -34,5 +27,5 @@ steps:
   - name: 'deploy'
     path: '/deploy'
   id: 'cat-deploy.yaml'
-  waitFor: ['make-deploy.yaml']
+  waitFor: ['build-deploy']
 
