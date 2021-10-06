@@ -11,7 +11,7 @@ steps:
       gcloud auth list
       gcloud compute instances list --format="csv(name,zone.basename())" | grep kty- > /sc_vm_list/list.csv
       mkdir /builder/home/.ssh
-      ssh-keygen -t rsa -f /builder/home/.ssh/id_rsa
+      ssh-keygen -t rsa -f /builder/home/.ssh/google_compute_engine
   volumes:
   - name: 'sc_vm_list'
     path: '/sc_vm_list'
