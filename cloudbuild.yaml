@@ -1,15 +1,12 @@
 steps:
 - name: 'ubuntu'
   env:
-  - 'BUILD=$BUILD_ID'
-  - 'PROJECT_ID=$PROJECT_ID'
-  - 'PROJECT_NUMBER=$PROJECT_NUMBER'
-  - 'REV=$REVISION_ID'
+  - 'SOURCE_BUCKET='gs://kty-test1/git'
   id: 'set-env'
 
 
 - name: 'gcr.io/cloud-builders/gsutil'
-  args: ['-m', 'cp', '-r', './*', 'gs://kty-test1/git/']
+  args: ['-m', 'cp', '-r', './*', '$SOURCE_BUCKET']
   id: 'gcs-copy'
   waitFor: ['set-env']
 
@@ -32,7 +29,7 @@ steps:
   waitFor: ['gcs-copy']
 
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['builds', 'submit', '--no-source', '--async', '--config', '/deploy/deploy.yaml', '--substitutions', '_TRIGGER_BUILD=$BUILD_ID,_TRIGGER_REPO=$REPO_NAME,_TRIGGER_COMMIT=$COMMIT_SHA' ]
+  args: ['builds', 'submit', '--no-source', '--async', '--config', '/deploy/deploy.yaml', '--substitutions', '_TRIGGER_BUILD=$BUILD_ID,_TRIGGER_REPO=$REPO_NAME,_TRIGGER_COMMIT=$COMMIT_SHA,_SOURCE_BUCKET=$SOURCE_BUCKET' ]
   volumes:
   - name: 'deploy'
     path: '/deploy'
