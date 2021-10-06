@@ -1,5 +1,6 @@
 steps:
 - name: 'ubuntu'
+  args: ['bash', './myscript.sh']
   env:
   - 'BUILD_BUCKET=gs://kty-test1/git'
   id: 'set-env'
