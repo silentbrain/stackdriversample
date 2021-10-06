@@ -1,5 +1,5 @@
 #!/bin/bash
-
+echo "Generating deploy.yaml"
 while IFS=',' read INSTANCE_NAME ZONE STATUS; 
 do
  cat <<EOF > /deploy/deploy.yaml
