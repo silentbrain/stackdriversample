@@ -27,7 +27,7 @@ steps:
       cat /sc_vm_list/list.csv
       while IFS=',' read INSTANCE_NAME ZONE STATUS; 
       do 
-        gcloud compute ssh pping@\${INSTANCE_NAME} --zone=\${ZONE} --tunnel-through-iap --ssh-flag="-p 10022" --command="hostname" &
+        gcloud compute ssh pping@\"${INSTANCE_NAME}\" --zone=\"${ZONE}\" --tunnel-through-iap --ssh-flag="-p 10022" --command="hostname" &
       done < /sc_vm_list/list.csv
   volumes:
   - name: 'sc_vm_list'
