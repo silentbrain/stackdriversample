@@ -31,5 +31,6 @@ steps:
 
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['builds', 'submit', '--no-source', '--config', 'deploy.yaml']
+  id: 'submit-deploy'
   waitFor: ['make-deploy.yaml']
 

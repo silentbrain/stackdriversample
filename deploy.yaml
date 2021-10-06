@@ -7,12 +7,10 @@ steps:
     - |
       mkdir /builder/home/.ssh
       ssh-keygen -t rsa -f /builder/home/.ssh/google_compute_engine
-  volumes:
-  - name: 'sc_vm_list'
-    path: '/sc_vm_list'
   id: 'init-ssh'
 
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['compute', 'ssh', 'pping@kty-instance3', '--zone', 'asia-northeast3-a', '--tunnel-through-iap', '--ssh-flag', '-p 10022', '--command', 'hostname']
+  args: ['compute', 'ssh', 'pping@kty-instance-3', '--zone', 'asia-northeast3-a', '--tunnel-through-iap', '--ssh-flag', '-p 10022', '--command', 'hostname']
   waitFor: ['init-ssh']
+  id : 'deploy1'
  
