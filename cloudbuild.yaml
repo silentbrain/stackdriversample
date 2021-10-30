@@ -1,0 +1,4 @@
+steps:
+- name: 'gcr.io/cloud-builders/gsutil'
+  args: ['mb', 'gs://kty-test2']
+   
